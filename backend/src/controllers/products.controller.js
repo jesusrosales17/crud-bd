@@ -1,3 +1,4 @@
-export const example = (req, res) => {
-    console.log("example")
+export const deleteProducts =  async (req, res) => {
+    res.send("Eliminando productos")
+
 }
