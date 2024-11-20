@@ -1,5 +1,6 @@
 import express from 'express'
 import providerRoutes from './routes/providers.routes.js'
+import productsRoutes from './routes/products.routes.js'
 
 export const startServer = () => {
     const app = express();
@@ -7,6 +8,7 @@ export const startServer = () => {
 
     app.use(express.json())
     app.use('/api', providerRoutes);
+    app.use('/api', productsRoutes);
 
     app.listen(port, () => {
         console.log(`Server is running on port ${port}`);

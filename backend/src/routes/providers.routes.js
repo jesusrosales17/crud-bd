@@ -6,4 +6,5 @@ const router = Router();
 router.get('/providers', getAllProviders);
 
 
+
 export default router;
