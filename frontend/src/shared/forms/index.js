@@ -1,0 +1,1 @@
+export {onInputChange} from './helper/onInputChange'
