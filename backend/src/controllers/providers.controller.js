@@ -81,8 +81,9 @@ export const updateProvider = async (req, res) => {
   const { empresa, agente, celular, telefono, direccion, mail, estado } = req.body;
   const { cvproveedor } = req.params;
 
+
   if(isNaN(cvproveedor))  return res.status(400).send({
-    message: "El id deve de ser un numero"
+    message: "El id debe de ser un numero"
   })
 
 
