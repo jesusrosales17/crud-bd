@@ -20,7 +20,7 @@ export const FormProviders = ({ props }) => {
     direccion: providerSelected?.direccion || "",
     mail: providerSelected?.mail || "",
     cvproveedor: providerSelected?.cvproveedor || null,
-    estado: providerSelected?.estado || null 
+    estado: providerSelected?.estado || 1
   });
 
   console.log(formData);
@@ -40,6 +40,15 @@ export const FormProviders = ({ props }) => {
         "El celular y el telefono deben ser numeros",
         "error"
       );
+
+    if((celular && celular.length < 10) || (telefono && telefono.length < 10))
+      return Swal.fire(
+        "Error",
+        "El celular y el telefono deben tener 10 digitos",
+        "error" 
+      );
+
+    
 
     if (isUpdating) {
       put(formData);
@@ -102,6 +111,8 @@ export const FormProviders = ({ props }) => {
               id="celular"
               type="tel"
               name="celular"
+              minLength={10}
+              maxLength={10}
               value={formData.celular}
               onChange={(e) => onInputChange(e, setFormData)}
               placeholder="Numero de celular"
@@ -115,6 +126,8 @@ export const FormProviders = ({ props }) => {
               id="telefono"
               type="tel"
               name="telefono"
+              minLength={10}
+              maxLength={10}
               value={formData.telefono}
               onChange={(e) => onInputChange(e, setFormData)}
               placeholder="Numero de telefono"

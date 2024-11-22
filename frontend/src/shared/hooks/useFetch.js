@@ -47,7 +47,7 @@ export const useFetch = (url) => {
             Swal.fire({
                 icon: 'success',
                 title: 'Proveedor guardado correctamente',
-                showConfirmButton: false,
+                // showConfirmButton: false,
                 timer: 1500
             })
         } catch (error) {
@@ -108,6 +108,47 @@ export const useFetch = (url) => {
         }
     }
 
-    return {data, loading, error, getData, post, put};
+
+    const remove = async (id) => {
+        try {
+            const response = await fetch(`${url}/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            
+            });
+            const result = await response.json();
+
+            if (!response.ok) {
+                
+                throw new Error(result.message || 'Ocurrio un error inesperado');
+            }
+
+        
+
+            const providersUpdated = data.filter(provider => provider.cvproveedor != id)
+
+           
+            setData([...providersUpdated]);
+            setLoading(false);  
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Proveedor Eliminado correctamente',
+                // showConfirmButton: false,
+                timer: 1500
+            })
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error.message
+            })
+            setError(error.message);
+            setLoading(false);
+        }
+    }
+    return {data, loading, error, getData, post, put, remove};
   
 }

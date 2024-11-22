@@ -1,7 +1,7 @@
 import React from 'react'
 import { IoPencilOutline, IoTrashOutline } from 'react-icons/io5'
 
-export const TableProviders = ({providers, showFormProvider}) => {
+export const TableProviders = ({providers, showFormProvider, removeProvider}) => {
   return (
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -69,13 +69,13 @@ export const TableProviders = ({providers, showFormProvider}) => {
                       <IoPencilOutline />
                       Editar
                     </button>
-                    <a
-                      href="#"
+                    <button
+                      onClick={() => removeProvider(provider.cvproveedor)}
                       className="font-medium border p-1 rounded-md w-full text-center bg-red-600 text-white flex gap-2 items-center  dark:text-red-500 hover:underline "
                     >
                       <IoTrashOutline />
                       Eliminar
-                    </a>
+                    </button>
                   </td>
                 </tr>
               ))

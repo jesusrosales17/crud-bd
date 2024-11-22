@@ -6,9 +6,10 @@ import {
 } from "react-icons/io5";
 import { FormProviders, TableProviders } from "../features/providers";
 import { useFetch } from "../shared/hooks/useFetch";
+import Swal from "sweetalert2";
 
 export const ProvidersPage = () => {
-  const { data, getData, loading, post, put } = useFetch(
+  const { data, getData, loading, post, put, remove } = useFetch(
     `${import.meta.env.VITE_URL_BASE}/providers`
   );
 
@@ -33,6 +34,25 @@ export const ProvidersPage = () => {
     setProviderSelected(provider);
     setIsUpdating(update);
   };
+
+  const removeProvider = (id) => {
+    
+    Swal.fire({
+      title: "¿Estas seguro de eliminar el proveedor?",
+      text: "No se podra revertir!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminar!",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        remove(id);
+       
+      }
+    });
+  }
 
 
 
@@ -78,7 +98,7 @@ export const ProvidersPage = () => {
       </div>
 
       <div className="relative overflow-x-auto  sm:rounded-lg bg-white p-4 shadow-md">
-       <TableProviders providers={data} showFormProvider={showFormProvider}  />
+       <TableProviders providers={data} showFormProvider={showFormProvider} removeProvider={removeProvider}  />
       </div>
 
       {showForm && (

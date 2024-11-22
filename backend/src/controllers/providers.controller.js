@@ -172,6 +172,7 @@ export const deleteProvider = async (req, res) => {
     "SELECT cvproveedor FROM proveedores WHERE cvproveedor = ?",
     [cvproveedor]
   );
+
   if (results.length === 0) {
     return res.status(404).send({
       message: "Proveedor no encontrado",
@@ -181,7 +182,7 @@ export const deleteProvider = async (req, res) => {
   try {
     await db.query("DELETE FROM proveedores WHERE cvproveedor = ?", [cvproveedor]);
 
-    if (result.affectedRows === 0) {
+    if (results.affectedRows === 0) {
       return res.status(404).send({
         message: "ocurrio un error al eliminar el proveedor",
       });
