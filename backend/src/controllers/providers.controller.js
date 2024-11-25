@@ -1,10 +1,17 @@
-import db from "../config/database.js";
-export const getAllProviders = async (req, res) => {
-  const [results] = await db.query("SELECT * FROM proveedores");
-  res.send(results);
+
+import * as providerModel from "../models/Provider.js";
+
+
+export const getProviders = async (req, res) => {
+  try {
+    const providers = await providerModel.getAll();
+    res.status(200).json(providers);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
-export const addProvider = async (req, res) => {
+export const createProvider = async (req, res) => {
   const { empresa, agente, celular, telefono, direccion, mail, estado } = req.body;
 
 
@@ -34,27 +41,17 @@ export const addProvider = async (req, res) => {
 
   try {
     // optener el ultimo id para asignarlo al proveedor
-    const [results] = await db.query(
-      "SELECT MAX(cvproveedor) as cvproveedor  FROM proveedores"
-    );
-    const cvproveedor = results[0].cvproveedor + 1;
-    
-    const result = await db.query("INSERT INTO proveedores SET ?", {
-      cvproveedor,
-      empresa,
-      agente,
-      celular,
-      telefono,
-      direccion,
-      mail,
-      estado
-    });
+    const response = await providerModel.create(req.body);
 
-    if (result.affectedRows === 0) {
-      return res.status(404).send({
-        message: "ocurrio un error al guardar el proveedor",
+    const { cvproveedor } = response;
+
+    if(response.result.affectedRows === 0) {
+      return res.status(500).send({
+        message: "Ocurrio un error al guardar el proveedor",
       });
     }
+
+    
 
     return res.status(200).send({
       message: "Proveedor guardado correctamente",
@@ -77,64 +74,58 @@ export const addProvider = async (req, res) => {
   }
 };
 
+
 export const updateProvider = async (req, res) => {
   const { empresa, agente, celular, telefono, direccion, mail, estado } = req.body;
   const { cvproveedor } = req.params;
 
-
-  if(isNaN(cvproveedor))  return res.status(400).send({
-    message: "El id debe de ser un numero"
-  })
-
-
-  if (!cvproveedor) {
+  if (!cvproveedor || isNaN(cvproveedor)) {
     return res.status(400).send({
-      message: "El id del proveedor es obligatorio",
+      message: "El id del proveedor es obligatorio y debe ser un número",
     });
   }
 
-  if(estado != 1 && estado != 2) {
+  if (estado != 1 && estado != 2) {
     return res.status(400).send({
-      message: "El estado debe ser Activo o Inactivo",
+      message: "El estado debe ser 1 (Activo) o 2 (Inactivo)",
     });
   }
 
-  
   if (!empresa) {
     return res.status(400).send({
-      message: "El nombre de la empresa es obligatoria",
+      message: "El nombre de la empresa es obligatorio",
     });
   }
 
-  if (isNaN(celular) || isNaN(telefono)) {
+  if ((celular && isNaN(celular)) || (telefono && isNaN(telefono))) {
     return res.status(400).send({
-      message: "Celular y Telefono deben ser numericos",
+      message: "Celular y Teléfono deben ser valores numéricos",
     });
   }
-
-  // verificar si existe el proveedor
-  const [results] = await db.query(
-    "SELECT cvproveedor FROM proveedores WHERE cvproveedor = ?",
-    [cvproveedor]
-  );
-  if (results.length === 0) {
-    return res.status(404).send({
-      message: "Proveedor no encontrado",
-    });
-  }
-
 
   try {
-    // optener el ultimo id para asignarlo al proveedor
+    // Verificar si el proveedor existe
+    const existingProvider = await providerModel.getById(cvproveedor);
+    if (!existingProvider) {
+      return res.status(404).send({
+        message: "Proveedor no encontrado",
+      });
+    }
 
-    const result = await db.query(
-      "UPDATE proveedores SET ? WHERE cvproveedor = ?",
-      [{ empresa, agente, celular, telefono, direccion, mail, estado }, cvproveedor]
-    );
+    // Actualizar el proveedor
+    const result = await providerModel.update(cvproveedor, {
+      empresa,
+      agente,
+      celular,
+      telefono,
+      direccion,
+      mail,
+      estado,
+    });
 
     if (result.affectedRows === 0) {
-      return res.status(404).send({
-        message: "ocurrio un error al actualizar el proveedor",
+      return res.status(500).send({
+        message: "Ocurrió un error al actualizar el proveedor",
       });
     }
 
@@ -148,13 +139,13 @@ export const updateProvider = async (req, res) => {
         telefono,
         direccion,
         mail,
-        estado
+        estado,
       },
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).send({
-      message: "Error al actualizar el proveedor",
+      message: "Error interno del servidor",
     });
   }
 };
@@ -162,30 +153,27 @@ export const updateProvider = async (req, res) => {
 export const deleteProvider = async (req, res) => {
   const { cvproveedor } = req.params;
 
-  if (!cvproveedor) {
+  if (!cvproveedor || isNaN(cvproveedor)) {
     return res.status(400).send({
-      message: "El id del proveedor es obligatorio",
-    });
-  }
-
-  // verificar si existe el proveedor
-  const [results] = await db.query(
-    "SELECT cvproveedor FROM proveedores WHERE cvproveedor = ?",
-    [cvproveedor]
-  );
-
-  if (results.length === 0) {
-    return res.status(404).send({
-      message: "Proveedor no encontrado",
+      message: "El id del proveedor es obligatorio y debe ser un número",
     });
   }
 
   try {
-    await db.query("DELETE FROM proveedores WHERE cvproveedor = ?", [cvproveedor]);
-
-    if (results.affectedRows === 0) {
+    // Verificar si el proveedor existe
+    const existingProvider = await providerModel.getById(cvproveedor);
+    if (!existingProvider) {
       return res.status(404).send({
-        message: "ocurrio un error al eliminar el proveedor",
+        message: "Proveedor no encontrado",
+      });
+    }
+
+    // Eliminar el proveedor
+    const result = await providerModel.remove(cvproveedor);
+
+    if (result.affectedRows === 0) {
+      return res.status(500).send({
+        message: "Ocurrió un error al eliminar el proveedor",
       });
     }
 
@@ -193,9 +181,9 @@ export const deleteProvider = async (req, res) => {
       message: "Proveedor eliminado correctamente",
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).send({
-        message: "Error al eliminar el proveedor",
-    })
+      message: "Error interno del servidor",
+    });
   }
 };
