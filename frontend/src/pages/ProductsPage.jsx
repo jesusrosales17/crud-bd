@@ -2,18 +2,20 @@ import React, { useEffect, useState } from "react";
 import {
   IoSearch,
   IoAddCircle,
+  IoCloudyNight,
  
 } from "react-icons/io5";
-import { FormProviders, TableProviders, SearchForm } from "../features/providers";
 import { useFetch } from "../shared/hooks/useFetch";
 import Swal from "sweetalert2";
 import { DynamicForm } from "../shared/forms/components/DynamicForm";
 import { TableProducts } from "../features/products/components/TableProducts";
+import { SearchForm } from "../shared/forms/components/SearchForm";
 
 export const ProductsPage = () => {
   const { data, getData, loading, post, put, remove } = useFetch(
     `${import.meta.env.VITE_URL_BASE}/products`
   );
+
 
   const [showForm, setShowForm] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -32,12 +34,11 @@ export const ProductsPage = () => {
 
   useEffect(() =>{
     if(search.length > 0) {
-      setProducts(data.filter((provider) => provider.empresa.toLowerCase().includes(search.toLowerCase())));
+      setProducts(data.filter((provider) => provider.nombre.toLowerCase().includes(search.toLowerCase())));
     } else {
       setProducts(data);
     }
   }, [search]);
-
 
   const showFormProvider = (update, provider = {
     empresa: "",
@@ -80,7 +81,7 @@ export const ProductsPage = () => {
     <div className="">
       {/* Header */}
       <div className="flex justify-between items-center mt-5 ">
-        <h2 className="text-left text-3xl">Proveedores</h2>
+        <h2 className="text-left text-3xl">Productos</h2>
         
           <button
             onClick={() => showFormProvider(false)}
