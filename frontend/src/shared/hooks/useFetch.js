@@ -1,4 +1,4 @@
-import { useState } from "react";   
+import { useEffect, useState } from "react";   
 import Swal from "sweetalert2";
 export const useFetch = (url) => {
     
@@ -6,15 +6,26 @@ export const useFetch = (url) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    useEffect(() => {
+        if(error == 'Failed to fetch') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "No se pudo conectar a la base de datos, llame al desarrollador"
+            })
+        }
+    }, [error])
+
     const getData = async () => {
         try {
             const response = await fetch(url);
+            
             const data = await response.json();
             setData(data);
             setLoading(false);  
         } catch (error) {
-            console.log(error);
-            setError(error);
+            
+            setError(error.message);
             setLoading(false);
         }
     }
@@ -94,7 +105,6 @@ export const useFetch = (url) => {
             Swal.fire({
                 icon: 'success',
                 title: 'Proveedor Actualizado correctamente',
-                showConfirmButton: false,
                 timer: 1500
             })
         } catch (error) {

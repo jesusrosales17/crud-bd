@@ -82,7 +82,7 @@ export const TableProviders = ({providers, showFormProvider, removeProvider}) =>
         )
         : (
             <tr className="bg-white border-b text-center dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td colSpan={7} className="px-6 py-4">No hay proveedores</td>
+                <td colSpan={8} className="px-6 py-4">No hay proveedores</td>
             </tr>
         )
     }
