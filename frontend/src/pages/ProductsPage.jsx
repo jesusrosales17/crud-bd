@@ -2,23 +2,25 @@ import React, { useEffect, useState } from "react";
 import {
   IoSearch,
   IoAddCircle,
+  IoCloudyNight,
  
 } from "react-icons/io5";
-import { fields } from "../features/providers/config/config";
-import { FormProviders, TableProviders, SearchForm } from "../features/providers";
 import { useFetch } from "../shared/hooks/useFetch";
 import Swal from "sweetalert2";
 import { DynamicForm } from "../shared/forms/components/DynamicForm";
+import { TableProducts } from "../features/products/components/TableProducts";
+import { SearchForm } from "../shared/forms/components/SearchForm";
 
-export const ProvidersPage = () => {
+export const ProductsPage = () => {
   const { data, getData, loading, post, put, remove } = useFetch(
-    `${import.meta.env.VITE_URL_BASE}/providers`
+    `${import.meta.env.VITE_URL_BASE}/products`
   );
+
 
   const [showForm, setShowForm] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [providerSelected, setProviderSelected] = useState({});
-  const [providers, setProviders] = useState(data);
+  const [productsSelected, setProductsSelected] = useState({});
+  const [products, setProducts] = useState(data);
   const [search, setSearch] = useState("");
 
 
@@ -27,17 +29,16 @@ export const ProvidersPage = () => {
    }, []);
 
   useEffect(() => {
-    setProviders(data);
+    setProducts(data);
   }, [data]);
 
   useEffect(() =>{
     if(search.length > 0) {
-      setProviders(data.filter((provider) => provider.empresa.toLowerCase().includes(search.toLowerCase())));
+      setProducts(data.filter((provider) => provider.nombre.toLowerCase().includes(search.toLowerCase())));
     } else {
-      setProviders(data);
+      setProducts(data);
     }
   }, [search]);
-
 
   const showFormProvider = (update, provider = {
     empresa: "",
@@ -80,13 +81,13 @@ export const ProvidersPage = () => {
     <div className="">
       {/* Header */}
       <div className="flex justify-between items-center mt-5 ">
-        <h2 className="text-left text-3xl">Proveedores</h2>
+        <h2 className="text-left text-3xl">Productos</h2>
         
           <button
             onClick={() => showFormProvider(false)}
             className="rounded border bg-green-500 px-2 py-2 font-bold flex gap-2 items-center text-white hover:bg-green-600 transition-colors"
           >
-            Agregar Proveedor
+            Agregar Producto
             <IoAddCircle size={20} />
           </button>
         
@@ -97,12 +98,12 @@ export const ProvidersPage = () => {
      <SearchForm  search={search} setSearch={setSearch} />
 
       <div className="relative overflow-x-auto  sm:rounded-lg bg-white p-4 shadow-md">
-       <TableProviders providers={providers} showFormProvider={showFormProvider} removeProvider={removeProvider}  />
+       <TableProducts products={products} showFormProvider={showFormProvider} removeProvider={removeProvider}  />
       </div>
 
-      {showForm && (
+     {/*  {showForm && (
         <FormProviders props={{isUpdating, setShowForm, setIsUpdating, loading, post, providerSelected, put}} />
-      )}
+      )} */}
     </div>
   );
 };
