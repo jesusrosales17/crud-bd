@@ -28,6 +28,7 @@ export const FormProviders = ({ props }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     const { empresa, celular, telefono } = formData;
+
     if (!empresa)
       return Swal.fire(
         "Error",
@@ -51,7 +52,7 @@ export const FormProviders = ({ props }) => {
     
 
     if (isUpdating) {
-      put(formData);
+      put(formData, formData.cvproveedor);
     } else {
       post(formData);
     }

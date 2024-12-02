@@ -72,9 +72,9 @@ export const useFetch = (url) => {
         }
     }
 
-    const put = async (formData) => {
+    const put = async (formData, id) => {
         try {
-            const response = await fetch(`${url}/${formData.cvproveedor}`, {
+            const response = await fetch(`${url}/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
