@@ -106,7 +106,7 @@ export const useFetch = (url) => {
             } else {
 
                 const providersUpdated = data.map(provider => {
-                    if(provider.cvproveedor == result.proveedor.cvproducto) {
+                    if(provider.cvproveedor == result.proveedor.cvproveedor) {
                         return result.proveedor;
                     }
                     return provider;
