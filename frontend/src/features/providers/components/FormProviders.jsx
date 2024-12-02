@@ -23,7 +23,7 @@ export const FormProviders = ({ props }) => {
     estado: providerSelected?.estado || 1
   });
 
-  console.log(formData);
+  console.log(providerSelected);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -51,7 +51,7 @@ export const FormProviders = ({ props }) => {
     
 
     if (isUpdating) {
-      put(formData);
+      put(formData, formData.cvproveedor);
     } else {
       post(formData);
     }

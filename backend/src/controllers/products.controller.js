@@ -1,10 +1,128 @@
 import db from "../config/database.js";
+import * as productsModel from "../models/Products.js";
+
 
 export const getProducts = async (req, res) => {
     const [results] = await db.query("SELECT * FROM productos");
-    res.send(results); 
+    res.send(results);
 };
 
-export const deleteProducts =  async (req, res) => {
-    res.send("Eliminando productos")
+export const deleteProducts = async (req, res) => {
+    const { cvproducto } = req.params;
+
+    if (!cvproducto || isNaN(cvproducto)) {
+      return res.status(400).send({
+        message: "El id del producto es obligatorio y debe ser un número",
+      });
+    }
+  
+    try {
+      // Verificar si el producto existe
+      const existingProduct = await productsModel.getById(cvproducto);
+      if (!existingProduct) {
+        return res.status(404).send({
+          message: "Producto no encontrado",
+        });
+      }
+  
+      // Eliminar el producto
+      const result = await productsModel.remove(cvproducto);
+  
+      if (result.affectedRows === 0) {
+        return res.status(500).send({
+          message: "Ocurrió un error al eliminar el producto",
+        });
+      }
+  
+      return res.status(200).send({
+        message: "Producto eliminado correctamente",
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).send({
+        message: "Error interno del servidor",
+      });
+    }
+
 }
+
+
+
+
+
+export const updateProducts = async (req, res) => {
+    const { nombre, departamento, existencias, preciov, preciovo, precioc, oferta, estado } = req.body;
+    const { cvproducto } = req.params;
+    if (!cvproducto || isNaN(cvproducto)) {
+        return res.status(400).send({
+            menssage: "El id del producto es obligatorio y debe de ser un numero",
+        });
+    }
+    if (!nombre) {
+        return res.status(400).send({
+            menssage: "El nombre del producto es obligatorio",
+        });
+    }
+
+    if (!departamento) {
+        return res.status(400).send({
+            menssage: "La marca del producto es obligatorio",
+        });
+    }
+    if (!existencias) {
+        return res.status(400).send({
+            menssage: "El numero de las existencias",
+        });
+    }
+    if ((preciov && isNaN(preciov)) || (preciovo && isNaN(preciovo)) || (precioc && isNaN(precioc))) {
+        return res.status(400).send({
+            menssage: "Los precios de los productos deben de ser valores númericos",
+        });
+    }
+    if (oferta != 1 && oferta != 2) {
+        return res.status(400).send({
+            menssage: "La oferta debe de ser 1(No) o 2 (Si)",
+        });
+    }
+    if (estado != 1 && estado != 2) {
+        return res.status(400).send({
+            menssage: "El estado debe de ser 1(Activo) o 2 (Inactivo)",
+        });
+    }
+
+    try {
+        // Verificar si el producto existe
+        const existingProvider = await productsModel.getById(cvproducto);
+        if (!existingProvider) {
+            return res.status(404).send({
+                message: "Producto no encontrado",
+            });
+        }
+    
+        // Actualizar el producto
+        const result = await productsModel.update(cvproducto, {
+            nombre, departamento, existencias, preciov, preciovo, precioc, oferta, estado
+        });
+    
+        if (result.affectedRows === 0) {
+            return res.status(500).send({
+                message: "Ocurrió un error al actualizar el producto",
+            });
+        }
+    
+        return res.status(200).send({
+            message: "Producto actualizado correctamente",
+            producto: {
+                cvproducto, nombre, departamento, existencias, preciov, preciovo, precioc, oferta, estado
+            },
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send({
+            message: "Error interno del servidor",
+            error: error
+        });
+    };
+}
+
+

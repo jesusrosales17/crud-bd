@@ -146,6 +146,7 @@ export const updateProvider = async (req, res) => {
     console.error(error);
     return res.status(500).send({
       message: "Error interno del servidor",
+      error: error
     });
   }
 };
