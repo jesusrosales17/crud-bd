@@ -1,65 +1,69 @@
 import React from 'react'
 import { IoPencilOutline, IoTrashOutline } from 'react-icons/io5'
 
-export const TableProducts = ({products, showFormProvider, removeProvider}) => {
+export const TableProducts = ({ products, showFormProducts, removeProvider }) => {
+  console.log(products)
   return (
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-      <tr className="text-center">
-        <th scope="col" className="px-6 py-3">
-          Nombre
-        </th>
-        <th scope="col" className="px-6 py-3">
-          Departamento
-        </th>
-        <th scope="col" className="px-6 py-3">
-          Existencias
-        </th>
-        <th scope="col" className="px-6 py-3">
-          PrecioV
-        </th>
-        <th scope="col" className="px-6 py-3">
-          PrecioVO
-        </th>
-        <th scope="col" className="px-6 py-3">
-          Oferta
-        </th>
-        <th scope="col" className="px-6 py-3">
-          Estado
-        </th>
+      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr className="text-center">
+          <th scope="col" className="px-6 py-3">
+            Nombre
+          </th>
+          <th scope="col" className="px-6 py-3">
+            Departamento
+          </th>
+          <th scope="col" className="px-6 py-3">
+            Existencias
+          </th>
+          <th scope="col" className="px-6 py-3">
+            PrecioV
+          </th>
+          <th scope="col" className="px-6 py-3">
+            PrecioVO
+          </th>
+          <th scope="col" className="px-6 py-3">
+            PrecioC
+          </th>
+          <th scope="col" className="px-6 py-3">
+            Oferta
+          </th>
+          <th scope="col" className="px-6 py-3">
+            Estado
+          </th>
 
-        <th scope="col" className="px-6 py-3">
-          Acciones
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-    {
-        products.length > 0 ?
-        (
-            products.map((products) => (
-                <tr key={products.cvproveedor} className="bg-white border-b text-center dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  
+          <th scope="col" className="px-6 py-3">
+            Acciones
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          products.length > 0 ?
+            (
+              products.map((products) => (
+                // cvproducto - cvproducto
+                <tr key={products.cvproducto} className="bg-white border-b text-center dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+
                   <td className="px-6 py-4">{products.nombre || "-"}</td>
                   <td className="px-6 py-4">{products.departamento || "-"}</td>
                   <td className="px-6 py-4">{products.existencias || "-"}</td>
                   <td className="px-6 py-4">{products.preciov || "-"}</td>
                   <td className="px-6 py-4">{products.preciovo || "-"}</td>
+                  <td className="px-6 py-4">{products.precioc || "-"}</td>
                   <td
                     className={`px-6 py-4}`}
-                 
-                     
+
                   >
-                    {products.estado == 1 ? "No" : "Si" ?? "-"}
+                    {products.oferta == 1 ? "No" : "Si" ?? "-"}
                   </td>
                   <td
-                    className={`px-6 py-4 ${
-                      products.estado == 1
+                    className={`px-6 py-4 ${products.estado == 1
                         ? "text-green-500"
                         : "text-red-500"
-                    }`}
-                 
-                     
+                      }`}
+
+
                   >
                     {products.estado == 1 ? "Activo" : "Inactivo" ?? "-"}
                   </td>
@@ -81,15 +85,15 @@ export const TableProducts = ({products, showFormProvider, removeProvider}) => {
                   </td>
                 </tr>
               ))
-        )
-        : (
-            <tr className="bg-white border-b text-center dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+            )
+            : (
+              <tr className="bg-white border-b text-center dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td colSpan={7} className="px-6 py-4">No hay productos</td>
-            </tr>
-        )
-    }
-    </tbody>
-  </table>
+              </tr>
+            )
+        }
+      </tbody>
+    </table>
   )
 }
 

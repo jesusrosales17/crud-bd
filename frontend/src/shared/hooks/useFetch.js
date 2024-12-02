@@ -72,9 +72,9 @@ export const useFetch = (url) => {
         }
     }
 
-    const put = async (formData) => {
+    const put = async (formData, id) => {
         try {
-            const response = await fetch(`${url}/${formData.cvproveedor}`, {
+            const response = await fetch(`${url}/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -88,19 +88,36 @@ export const useFetch = (url) => {
                 throw new Error(result.message || 'Ocurrio un error inesperado');
             }
 
-            console.log(result)
+            console.log(result.producto)
 
-            const providersUpdated = data.map(provider => {
-                if(provider.cvproveedor == result.proveedor.cvproveedor) {
-                    return result.proveedor;
-                }
-                return provider;
-            })
 
-            console.log(providersUpdated);
-           
-            setData([...providersUpdated]);
-            setLoading(false);  
+
+            if(result.producto) {
+                const dataUpdated = data.map(product => {
+                    if(product.cvproducto == result.producto.cvproducto) {
+                        return result.producto;
+                    }
+                    return product;
+                })
+    
+               
+                setData([...dataUpdated]);
+                setLoading(false);  
+            } else {
+
+                const providersUpdated = data.map(provider => {
+                    if(provider.cvproveedor == result.proveedor.cvproducto) {
+                        return result.proveedor;
+                    }
+                    return provider;
+                })
+    
+                console.log(providersUpdated);
+               
+                setData([...providersUpdated]);
+                setLoading(false);  
+            }
+
 
             Swal.fire({
                 icon: 'success',

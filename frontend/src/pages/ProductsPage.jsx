@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import { DynamicForm } from "../shared/forms/components/DynamicForm";
 import { TableProducts } from "../features/products/components/TableProducts";
 import { SearchForm } from "../shared/forms/components/SearchForm";
+import { FormProducts } from "../features/products/components/FormProducts";
 
 export const ProductsPage = () => {
   const { data, getData, loading, post, put, remove } = useFetch(
@@ -19,7 +20,7 @@ export const ProductsPage = () => {
 
   const [showForm, setShowForm] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [productsSelected, setProductsSelected] = useState({});
+  const [productSelected, setProductSelected] = useState({});
   const [products, setProducts] = useState(data);
   const [search, setSearch] = useState("");
 
@@ -40,16 +41,19 @@ export const ProductsPage = () => {
     }
   }, [search]);
 
-  const showFormProvider = (update, provider = {
-    empresa: "",
-    agente: "",
-    celular: "",
-    telefono: "",
-    direccion: "",
-    mail: "",
+  const showFormProducts = (update, product = {
+    nombre: "",
+    departamento: "",
+    existencias: "",
+    preciov: "",
+    preciovo: "",
+    precioc: "",
+    oferta: "",
+    estado: ""
   }) => {
+    console.log(product)
     setShowForm(true);
-    setProviderSelected(provider);
+    setProductSelected(product);
     setIsUpdating(update);
   };
 
@@ -98,12 +102,12 @@ export const ProductsPage = () => {
      <SearchForm  search={search} setSearch={setSearch} />
 
       <div className="relative overflow-x-auto  sm:rounded-lg bg-white p-4 shadow-md">
-       <TableProducts products={products} showFormProvider={showFormProvider} removeProvider={removeProvider}  />
+       <TableProducts products={products} showFormProducts={showFormProducts} removeProvider={removeProvider}  />
       </div>
 
-     {/*  {showForm && (
-        <FormProviders props={{isUpdating, setShowForm, setIsUpdating, loading, post, providerSelected, put}} />
-      )} */}
+      {showForm && (
+        <FormProducts props={{isUpdating, setShowForm, setIsUpdating, loading, post, productSelected, put}} />
+      )} 
     </div>
   );
 };
