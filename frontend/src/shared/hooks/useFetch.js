@@ -47,17 +47,17 @@ export const useFetch = (url) => {
 
             console.log(result)
 
-            const newProvider = {
-               ...result.proveedor
+            const newObject = {
+               ...result.data
             }
 
            
-            setData([ newProvider,...data,]);
+            setData([ newObject,...data,]);
             setLoading(false);  
 
             Swal.fire({
                 icon: 'success',
-                title: 'Proveedor guardado correctamente',
+                title: result.message,
                 // showConfirmButton: false,
                 timer: 1500
             })

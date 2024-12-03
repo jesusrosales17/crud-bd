@@ -37,7 +37,16 @@ export const FormProducts = ({ props }) => {
             cvproducto,
             estado,
             oferta } = formData;
-        if (!nombre.trim() || !departamento.trim() || !existencias || !preciov || !preciovo|| !precioc|| !cvproducto || !estado || !oferta)
+
+            if(isUpdating && !cvproducto) {
+                return Swal.fire(
+                    "Error",
+                    "el id es obligatorio",
+                    "error"
+                );
+            }
+        if (!nombre.trim() || !departamento.trim() || !existencias || !preciov || !preciovo|| !precioc || !estado || !oferta)
+            
             return Swal.fire(
                 "Error",
                 "Todos los campos son obligatorios",
@@ -49,6 +58,16 @@ export const FormProducts = ({ props }) => {
                 "Las existencias, los precios, el estado y la oferta deben ser numeros",
                 "error"
             );
+        
+        if(Number(existencias) < 0 || Number(precioc) < 0 || Number(preciov) < 0 || Number(preciovo) < 0) {
+            console.log(exis < 0)
+            return Swal.fire(
+                "Error",
+                "Los precios deben ser mayor o igual a 0",
+                "error"
+            );
+        
+        }
 
         if (isUpdating) {
             put(formData, formData.cvproducto);
@@ -110,8 +129,9 @@ export const FormProducts = ({ props }) => {
                         <input
                             className={styles.input}
                             id="existencias"
-                            type="num"
+                            type="number"
                             name="existencias"
+                            min={0}
                             value={formData.existencias}
                             onChange={(e) => onInputChange(e, setFormData)}
                             placeholder="Numero de existencias"
@@ -123,8 +143,9 @@ export const FormProducts = ({ props }) => {
                         <input
                             className={styles.input}
                             id="preciov"
-                            type="num"
+                            type="number"
                             name="preciov"
+                            min={0}
                             value={formData.preciov}
                             onChange={(e) => onInputChange(e, setFormData)}
                             placeholder="Numero de precio venta"
@@ -136,7 +157,8 @@ export const FormProducts = ({ props }) => {
                         <input
                             className={styles.input}
                             id="preciovo"
-                            type="num"
+                            type="number"
+                            min={0}
                             name="preciovo"
                             value={formData.preciovo}
                             onChange={(e) => onInputChange(e, setFormData)}
@@ -148,7 +170,8 @@ export const FormProducts = ({ props }) => {
                         <input
                             className={styles.input}
                             id="precioc"
-                            type="num"
+                            type="number"
+                            min={0}
                             name="precioc"
                             value={formData.precioc}
                             onChange={(e) => onInputChange(e, setFormData)}

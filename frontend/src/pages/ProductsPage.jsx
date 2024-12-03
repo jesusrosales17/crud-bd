@@ -88,7 +88,7 @@ export const ProductsPage = () => {
         <h2 className="text-left text-3xl">Productos</h2>
         
           <button
-            onClick={() => showFormProvider(false)}
+            onClick={() => showFormProducts(false)}
             className="rounded border bg-green-500 px-2 py-2 font-bold flex gap-2 items-center text-white hover:bg-green-600 transition-colors"
           >
             Agregar Producto
