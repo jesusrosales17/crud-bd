@@ -15,7 +15,6 @@ export const createProvider = async (req, res) => {
   const { empresa, agente, celular, telefono, direccion, mail, estado } = req.body;
 
 
-
   if (!empresa || !estado) {
     return res.status(400).send({
       message: "El nombre de la empresa y el estado  es obligatorio",
@@ -55,7 +54,7 @@ export const createProvider = async (req, res) => {
 
     return res.status(200).send({
       message: "Proveedor guardado correctamente",
-      proveedor: {
+      data: {
         cvproveedor,
         empresa,
         agente,
@@ -146,6 +145,7 @@ export const updateProvider = async (req, res) => {
     console.error(error);
     return res.status(500).send({
       message: "Error interno del servidor",
+      error: error
     });
   }
 };

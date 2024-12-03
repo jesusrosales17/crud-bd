@@ -72,9 +72,9 @@ export const useFetch = (url) => {
         }
     }
 
-    const put = async (formData) => {
+    const put = async (formData, id) => {
         try {
-            const response = await fetch(`${url}/${formData.cvproveedor}`, {
+            const response = await fetch(`${url}/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -88,23 +88,40 @@ export const useFetch = (url) => {
                 throw new Error(result.message || 'Ocurrio un error inesperado');
             }
 
-            console.log(result)
+            console.log(result.producto)
 
-            const providersUpdated = data.map(provider => {
-                if(provider.cvproveedor == result.proveedor.cvproveedor) {
-                    return result.proveedor;
-                }
-                return provider;
-            })
 
-            console.log(providersUpdated);
-           
-            setData([...providersUpdated]);
-            setLoading(false);  
+
+            if(result.producto) {
+                const dataUpdated = data.map(product => {
+                    if(product.cvproducto == result.producto.cvproducto) {
+                        return result.producto;
+                    }
+                    return product;
+                })
+    
+               
+                setData([...dataUpdated]);
+                setLoading(false);  
+            } else {
+
+                const providersUpdated = data.map(provider => {
+                    if(provider.cvproveedor == result.proveedor.cvproveedor) {
+                        return result.proveedor;
+                    }
+                    return provider;
+                })
+    
+                console.log(providersUpdated);
+               
+                setData([...providersUpdated]);
+                setLoading(false);  
+            }
+
 
             Swal.fire({
                 icon: 'success',
-                title: 'Proveedor Actualizado correctamente',
+                title: result.message,
                 timer: 1500
             })
         } catch (error) {
@@ -134,18 +151,25 @@ export const useFetch = (url) => {
                 
                 throw new Error(result.message || 'Ocurrio un error inesperado');
             }
-
+            console.log(result);
         
+            if(result.message == "Producto eliminado correctamente") {
+            const updatedData = data.filter(product => product.cvproducto != id)
+            setData([...updatedData]);
 
-            const providersUpdated = data.filter(provider => provider.cvproveedor != id)
+            } else {
+
+                const providersUpdated = data.filter(provider => provider.cvproveedor != id)
+            setData([...providersUpdated]);
+
+            }
 
            
-            setData([...providersUpdated]);
             setLoading(false);  
 
             Swal.fire({
                 icon: 'success',
-                title: 'Proveedor Eliminado correctamente',
+                title: result.message,
                 // showConfirmButton: false,
                 timer: 1500
             })
