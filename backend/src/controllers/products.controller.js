@@ -1,5 +1,5 @@
 import db from "../config/database.js";
-import * as productsModel from "../models/Products.js";
+import * as productsModel from "../models/Product.js";
 
 
 export const getProducts = async (req, res) => {
@@ -27,8 +27,9 @@ export const deleteProducts = async (req, res) => {
   
       // Eliminar el producto
       const result = await productsModel.remove(cvproducto);
+
   
-      if (result.affectedRows === 0) {
+      if (result.affectedRows === 0 ) {
         return res.status(500).send({
           message: "Ocurrió un error al eliminar el producto",
         });
@@ -40,7 +41,7 @@ export const deleteProducts = async (req, res) => {
     } catch (error) {
       console.error(error);
       return res.status(500).send({
-        message: "Error interno del servidor",
+        message: error.message ?? "Ocurrió un error al eliminar el producto",
       });
     }
 
@@ -114,7 +115,7 @@ export const updateProducts = async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(500).send({
-            message: "Error interno del servidor",
+            message: error.message ?? "Ocurrió un error al actualizar el producto",
             error: error
         });
     };
@@ -169,7 +170,7 @@ export const createProducts = async (req, res) => {
   } catch (error) {
       console.error(error);
       return res.status(500).send({
-          message: "Error interno del servidor",
+          message: error.menssage ?? "Ocurrió un error al crear el producto",
           error: error
       });
   };

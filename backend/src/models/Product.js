@@ -29,7 +29,7 @@ export const update = async (cvproducto, data) => {
   // Eliminar un producto
 export const remove = async (cvproducto) => {
   const [result] = await db.query(
-    "DELETE FROM productos WHERE cvproducto = ?",
+    "CALL deleteProduct(?)",
     [cvproducto]
   );
   return result; // Retorna el objeto de resultado de la consulta
