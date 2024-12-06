@@ -1,5 +1,5 @@
 .formContainer {
-    @apply fixed  w-full h-svh bg-gray-600/40 top-0 left-0 flex flex-col justify-center items-center mt-5
+    @apply fixed  w-full h-svh bg-gray-600/40 top-[-20px] z-20 left-0 flex flex-col justify-center items-center mt-5 
 }
 .form {
     @apply  bg-white p-5 rounded-md
@@ -8,7 +8,7 @@
     @apply flex flex-col gap-2 mt-2
 }
 .input {
-    @apply bg-white rounded-md border w-full h-10 p-2
+    @apply bg-white rounded-md  w-full h-10 p-2 border
 }
 .formTitle {
     @apply text-2xl font-bold border-b  pb-2
@@ -17,8 +17,8 @@
     @apply flex justify-between lg:justify-end gap-4 mt-10
 }
 .saveButton{
-    @apply rounded border bg-green-500 px-2 py-2 font-bold flex gap-2 items-center text-white hover:bg-green-600 transition-colors
+    @apply rounded  bg-green-500 px-2 py-2 font-bold flex gap-2 items-center text-white hover:bg-green-600 transition-colors
 }
 .cancelButton {
- @apply rounded border bg-red-500 px-2 py-2 font-bold flex gap-2 items-center text-white hover:bg-red-600 transition-colors  
+ @apply rounded  bg-red-500 px-2 py-2 font-bold flex gap-2 items-center text-white hover:bg-red-600 transition-colors  
 }

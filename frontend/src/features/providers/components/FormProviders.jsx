@@ -23,7 +23,7 @@ export const FormProviders = ({ props }) => {
     estado: providerSelected?.estado || 1
   });
 
-  console.log(formData);
+  console.log(providerSelected);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -72,16 +72,16 @@ export const FormProviders = ({ props }) => {
 
   return (
     <div className={styles.formContainer}>
-      <form className={`${styles.form} w-8/12`} onSubmit={onSubmit}>
-        <h2 className={styles.formTitle}>
+      <form className={`${styles.form} w-8/12 dark:bg-gray-800`} onSubmit={onSubmit}>
+        <h2 className={`${styles.formTitle} dark:text-white`}>
           {isUpdating ? "Actualizar" : "Agregar"} Proveedor
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 dark:text-gray-400">
           <div className={styles.formItem}>
             <label htmlFor="empresa">Empresa:</label>
             <input
-              className={styles.input}
+              className={`${styles.input} dark:bg-gray-500 dark:text-white dark:placeholder:text-gray-400`}
               id="empresa"
               type="text"
               value={formData.empresa}
@@ -95,7 +95,7 @@ export const FormProviders = ({ props }) => {
           <div className={styles.formItem}>
             <label htmlFor="agente">Agente:</label>
             <input
-              className={styles.input}
+              className={`${styles.input} dark:bg-gray-500 dark:text-white dark:placeholder:text-gray-400`}
               value={formData.agente}
               onChange={(e) => onInputChange(e, setFormData)}
               id="agente"
@@ -108,7 +108,7 @@ export const FormProviders = ({ props }) => {
           <div className={styles.formItem}>
             <label htmlFor="celular">Celular:</label>
             <input
-              className={styles.input}
+              className={`${styles.input} dark:bg-gray-500 dark:text-white dark:placeholder:text-gray-400`}
               id="celular"
               type="tel"
               name="celular"
@@ -123,7 +123,7 @@ export const FormProviders = ({ props }) => {
           <div className={styles.formItem}>
             <label htmlFor="telefono">Telefono:</label>
             <input
-              className={styles.input}
+              className={`${styles.input} dark:bg-gray-500 dark:text-white dark:placeholder:text-gray-400`}
               id="telefono"
               type="tel"
               name="telefono"
@@ -138,7 +138,7 @@ export const FormProviders = ({ props }) => {
           <div className={styles.formItem}>
             <label htmlFor="direccion">Direccion:</label>
             <input
-              className={styles.input}
+              className={`${styles.input} dark:bg-gray-500 dark:text-white dark:placeholder:text-gray-400`}
               id="direccion"
               type="text"
               name="direccion"
@@ -151,7 +151,7 @@ export const FormProviders = ({ props }) => {
           <div className={styles.formItem}>
             <label htmlFor="email">Email:</label>
             <input
-              className={styles.input}
+              className={`${styles.input} dark:bg-gray-500 dark:text-white dark:placeholder:text-gray-400`}
               id="mail"
               type="email"
               name="mail"
@@ -164,7 +164,7 @@ export const FormProviders = ({ props }) => {
           <div className={styles.formItem}>
           <label htmlFor="estado">Estado:</label>
 
-            <select  value={formData.estado} onChange={(e) => onInputChange(e, setFormData)} className={styles.input} name="estado" id="estado">
+            <select  value={formData.estado} onChange={(e) => onInputChange(e, setFormData)} className={`${styles.input} dark:bg-gray-500 dark:text-white dark:placeholder:text-gray-400`} name="estado" id="estado">
               <option value="1">Activo</option>
               <option value="2">Inactivo</option>
             </select>

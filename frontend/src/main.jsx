@@ -5,15 +5,19 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import { ProvidersPage } from './pages';
-import { Template } from './shared/templates';
-import { ProductsPage } from './pages/ProductsPage';
+import { ProvidersPage, ProductsPage, HomePage} from './pages';
+import { Template } from './shared/';
+
 
 const router = createBrowserRouter([
  {
   path: "/",
   element: <Template />,
   children: [
+    {
+      path: "/",
+      element: <HomePage />,
+    },
     {
       path: "proveedores",
       element: <ProvidersPage />,

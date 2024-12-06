@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {
-  IoSearch,
   IoAddCircle,
-  IoCloudyNight,
  
 } from "react-icons/io5";
 import { useFetch } from "../shared/hooks/useFetch";
 import Swal from "sweetalert2";
-import { DynamicForm } from "../shared/forms/components/DynamicForm";
 import { TableProducts } from "../features/products/components/TableProducts";
 import { SearchForm } from "../shared/forms/components/SearchForm";
+import { FormProducts } from "../features/products/components/FormProducts";
 
 export const ProductsPage = () => {
   const { data, getData, loading, post, put, remove } = useFetch(
@@ -19,7 +17,7 @@ export const ProductsPage = () => {
 
   const [showForm, setShowForm] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [productsSelected, setProductsSelected] = useState({});
+  const [productSelected, setProductSelected] = useState({});
   const [products, setProducts] = useState(data);
   const [search, setSearch] = useState("");
 
@@ -40,23 +38,26 @@ export const ProductsPage = () => {
     }
   }, [search]);
 
-  const showFormProvider = (update, provider = {
-    empresa: "",
-    agente: "",
-    celular: "",
-    telefono: "",
-    direccion: "",
-    mail: "",
+  const showFormProducts = (update, product = {
+    nombre: "",
+    departamento: "",
+    existencias: "",
+    preciov: "",
+    preciovo: "",
+    precioc: "",
+    oferta: "",
+    estado: ""
   }) => {
+    console.log(product)
     setShowForm(true);
-    setProviderSelected(provider);
+    setProductSelected(product);
     setIsUpdating(update);
   };
 
-  const removeProvider = (id) => {
+  const removeProduct = (id) => {
     
     Swal.fire({
-      title: "¿Estas seguro de eliminar el proveedor?",
+      title: "¿Estas seguro de eliminar el producto?",
       text: "No se podra revertir!",
       icon: "warning",
       showCancelButton: true,
@@ -78,14 +79,14 @@ export const ProductsPage = () => {
   
 
   return (
-    <div className="">
+    <div className="pb-5">
       {/* Header */}
       <div className="flex justify-between items-center mt-5 ">
-        <h2 className="text-left text-3xl">Productos</h2>
+        <h2 className="text-left text-3xl dark:text-white">Productos</h2>
         
           <button
-            onClick={() => showFormProvider(false)}
-            className="rounded border bg-green-500 px-2 py-2 font-bold flex gap-2 items-center text-white hover:bg-green-600 transition-colors"
+            onClick={() => showFormProducts(false)}
+            className="rounded  bg-green-500 px-2 py-2 font-bold flex gap-2 items-center text-white hover:bg-green-600 transition-colors"
           >
             Agregar Producto
             <IoAddCircle size={20} />
@@ -97,13 +98,13 @@ export const ProductsPage = () => {
       {/* Dropdown Section */}
      <SearchForm  search={search} setSearch={setSearch} />
 
-      <div className="relative overflow-x-auto  sm:rounded-lg bg-white p-4 shadow-md">
-       <TableProducts products={products} showFormProvider={showFormProvider} removeProvider={removeProvider}  />
+      <div className="relative overflow-x-auto  sm:rounded-lg  p-4 shadow-md dark:shadow-slate-700">
+       <TableProducts products={products} showFormProducts={showFormProducts} removeProduct={removeProduct}  />
       </div>
 
-     {/*  {showForm && (
-        <FormProviders props={{isUpdating, setShowForm, setIsUpdating, loading, post, providerSelected, put}} />
-      )} */}
+      {showForm && (
+        <FormProducts props={{isUpdating, setShowForm, setIsUpdating, loading, post, productSelected, put}} />
+      )} 
     </div>
   );
 };
