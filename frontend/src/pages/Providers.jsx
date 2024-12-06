@@ -80,11 +80,11 @@ export const ProvidersPage = () => {
     <div className="">
       {/* Header */}
       <div className="flex justify-between items-center mt-5 ">
-        <h2 className="text-left text-3xl">Proveedores</h2>
+        <h2 className="text-left text-3xl dark:text-white">Proveedores</h2>
         
           <button
             onClick={() => showFormProvider(false)}
-            className="rounded border bg-green-500 px-2 py-2 font-bold flex gap-2 items-center text-white hover:bg-green-600 transition-colors"
+            className="rounded  bg-green-500 px-2 py-2 font-bold flex gap-2 items-center text-white hover:bg-green-600 transition-colors"
           >
             Agregar Proveedor
             <IoAddCircle size={20} />
@@ -96,7 +96,7 @@ export const ProvidersPage = () => {
       {/* Dropdown Section */}
      <SearchForm  search={search} setSearch={setSearch} />
 
-      <div className="relative overflow-x-auto  sm:rounded-lg bg-white p-4 shadow-md">
+      <div className="relative overflow-x-auto  sm:rounded-lg  p-4 shadow-md">
        <TableProviders providers={providers} showFormProvider={showFormProvider} removeProvider={removeProvider}  />
       </div>
 

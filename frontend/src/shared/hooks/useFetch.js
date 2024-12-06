@@ -21,6 +21,12 @@ export const useFetch = (url) => {
             const response = await fetch(url);
             
             const data = await response.json();
+
+            console.log(data)
+            if (!response.ok) {
+                throw new Error(data.message || 'Ocurrio un error inesperado');
+            }
+
             setData(data);
             setLoading(false);  
         } catch (error) {

@@ -91,16 +91,16 @@ export const FormProducts = ({ props }) => {
 
     return (
         <div className={styles.formContainer}>
-            <form className={`${styles.form} w-8/12`} onSubmit={onSubmit}>
-                <h2 className={styles.formTitle}>
+            <form className={`${styles.form} w-8/12 dark:bg-gray-800`} onSubmit={onSubmit}>
+                <h2 className={`${styles.formTitle} dark:text-white`}>
                     {isUpdating ? "Actualizar" : "Agregar"} Producto
                 </h2>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3  dark:text-gray-400">
                     <div className={styles.formItem}>
                         <label htmlFor="nombre">nombre:</label>
                         <input
-                            className={styles.input}
+                            className={`${styles.input} dark:bg-gray-500 dark:text-white dark:placeholder:text-gray-400`}
                             id="nombre"
                             type="text"
                             value={formData.nombre}
@@ -114,7 +114,7 @@ export const FormProducts = ({ props }) => {
                     <div className={styles.formItem}>
                         <label htmlFor="departamento">departamento:</label>
                         <input
-                            className={styles.input}
+                            className={`${styles.input} dark:bg-gray-500 dark:text-white dark:placeholder:text-gray-400`}
                             value={formData.departamento}
                             onChange={(e) => onInputChange(e, setFormData)}
                             id="departamento"
@@ -127,7 +127,7 @@ export const FormProducts = ({ props }) => {
                     <div className={styles.formItem}>
                         <label htmlFor="existencias">existencias:</label>
                         <input
-                            className={styles.input}
+                            className={`${styles.input} dark:bg-gray-500 dark:text-white dark:placeholder:text-gray-400`}
                             id="existencias"
                             type="number"
                             name="existencias"
@@ -141,7 +141,7 @@ export const FormProducts = ({ props }) => {
                     <div className={styles.formItem}>
                         <label htmlFor="preciov">Precio Venta:</label>
                         <input
-                            className={styles.input}
+                            className={`${styles.input} dark:bg-gray-500 dark:text-white dark:placeholder:text-gray-400`}
                             id="preciov"
                             type="number"
                             name="preciov"
@@ -155,7 +155,7 @@ export const FormProducts = ({ props }) => {
                     <div className={styles.formItem}>
                         <label htmlFor="preciovo">Precio Venta en oferta:</label>
                         <input
-                            className={styles.input}
+                            className={`${styles.input} dark:bg-gray-500 dark:text-white dark:placeholder:text-gray-400`}
                             id="preciovo"
                             type="number"
                             min={0}
@@ -168,7 +168,7 @@ export const FormProducts = ({ props }) => {
                     <div className={styles.formItem}>
                         <label htmlFor="precioc">Precio de Compra:</label>
                         <input
-                            className={styles.input}
+                            className={`${styles.input} dark:bg-gray-500 dark:text-white dark:placeholder:text-gray-400`}
                             id="precioc"
                             type="number"
                             min={0}
@@ -181,7 +181,7 @@ export const FormProducts = ({ props }) => {
                     <div className={styles.formItem}>
                         <label htmlFor="oferta">Oferta:</label>
 
-                        <select value={formData.oferta} onChange={(e) => onInputChange(e, setFormData)} className={styles.input} name="oferta" id="oferta">
+                        <select value={formData.oferta} onChange={(e) => onInputChange(e, setFormData)} className={`${styles.input} dark:bg-gray-500 dark:text-white dark:placeholder:text-gray-400`} name="oferta" id="oferta">
                             <option value="1">No</option>
                             <option value="2">Si</option>
                         </select>
@@ -190,7 +190,7 @@ export const FormProducts = ({ props }) => {
                     <div className={styles.formItem}>
                         <label htmlFor="estado">Estado:</label>
 
-                        <select value={formData.estado} onChange={(e) => onInputChange(e, setFormData)} className={styles.input} name="estado" id="estado">
+                        <select value={formData.estado} onChange={(e) => onInputChange(e, setFormData)} className={`${styles.input} dark:bg-gray-500 dark:text-white dark:placeholder:text-gray-400`} name="estado" id="estado">
                             <option value="1">Activo</option>
                             <option value="2">Inactivo</option>
                         </select>

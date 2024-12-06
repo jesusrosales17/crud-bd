@@ -1,14 +1,22 @@
-import {Outlet} from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { Header } from './components/Header'
+import { Sidebar } from './components/Sidebar'
 
 export const Template = () => {
   return (
-    <div className='min-h-screen'>
-        <Header/> 
+    <div className='min-h-screen flex'>
 
-        <main className='container mx-auto px-4  h-full pb-3'>
+      <Sidebar />
+      <main className='flex-1 overflow-x-hidden'>
+        <Header />
+        <div>
+          <div className='m-2 bg-white dark:bg-slate-800 transition-colors shadow-[0_12px_24px_rgba(0,0,0,0.3)] py-2 px-4 rounded-md'>
+
             <Outlet />
-        </main>
+          </div>
+
+        </div>
+      </main>
 
     </div>
   )

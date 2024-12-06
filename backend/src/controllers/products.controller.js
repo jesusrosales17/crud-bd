@@ -1,10 +1,14 @@
-import db from "../config/database.js";
+
 import * as productsModel from "../models/Product.js";
 
 
 export const getProducts = async (req, res) => {
-    const [results] = await db.query("SELECT * FROM productos");
-    res.send(results);
+    try {
+    const products = await productsModel.getAll();
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message ?? "Ocurrió un error al obtener los productos" });
+  }
 };
 
 export const deleteProducts = async (req, res) => {
