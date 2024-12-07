@@ -55,42 +55,34 @@ export const deleteProducts = async (req, res) => {
 export const updateProducts = async (req, res) => {
     const { nombre, departamento, existencias, preciov, preciovo, precioc, oferta, estado } = req.body;
     const { cvproducto } = req.params;
-    if (!cvproducto || isNaN(cvproducto)) {
+
+    if(!cvproducto || isNaN(cvproducto)){
         return res.status(400).send({
-            menssage: "El id del producto es obligatorio y debe de ser un numero",
-        });
-    }
-    if (!nombre) {
-        return res.status(400).send({
-            menssage: "El nombre del producto es obligatorio",
+            message: "El id del producto es obligatorio y debe ser un número",
         });
     }
 
-    if (!departamento) {
-        return res.status(400).send({
-            menssage: "La marca del producto es obligatorio",
-        });
-    }
-    if (!existencias) {
-        return res.status(400).send({
-            menssage: "El numero de las existencias",
-        });
-    }
-    if ((preciov && isNaN(preciov)) || (preciovo && isNaN(preciovo)) || (precioc && isNaN(precioc) || (precioc && isNaN(existencias)))) {
-        return res.status(400).send({
-            menssage: "Los precios de los productos deben de ser valores númericos",
-        });
-    }
-    if (oferta != 1 && oferta != 2) {
-        return res.status(400).send({
-            menssage: "La oferta debe de ser 1(No) o 2 (Si)",
-        });
-    }
-    if (estado != 1 && estado != 2) {
-        return res.status(400).send({
-            menssage: "El estado debe de ser 1(Activo) o 2 (Inactivo)",
-        });
-    }
+   if (!nombre  || !departamento || !existencias || !preciov || !preciovo || !precioc || !oferta || !estado) {
+      return res.status(400).send({
+          menssage: "Todos los campos son obligatorios",
+      });
+  }
+
+  if ((preciov && isNaN(preciov)) || (preciovo && isNaN(preciovo)) || (precioc && isNaN(precioc) || (precioc && isNaN(existencias)))) {
+      return res.status(400).send({
+          menssage: "Los precios de los productos deben de ser valores númericos",
+      });
+  }
+  if (oferta != 1 && oferta != 2) {
+      return res.status(400).send({
+          menssage: "La oferta debe de ser 1(No) o 2 (Si)",
+      });
+  }
+  if (estado != 1 && estado != 2) {
+      return res.status(400).send({
+          menssage: "El estado debe de ser 1(Activo) o 2 (Inactivo)",
+      });
+  }
 
     try {
         // Verificar si el producto existe
